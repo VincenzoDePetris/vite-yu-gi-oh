@@ -1,2 +1,12 @@
 @use "./partials/mixins" as *;
 @use "./partials/variables" as *;
+
+img {
+  max-width: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: rgb(212, 143, 56);
+}
