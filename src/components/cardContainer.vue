@@ -7,6 +7,7 @@ export default {
       title: "Yu-Gi-Oh Api",
       cards: [],
       number: 20,
+      archetypes: [],
     };
   },
   methods: {
@@ -18,15 +19,28 @@ export default {
           this.cards = res.data.data;
         });
     },
+    filter() {
+      axios
+        .get("https://db.ygoprodeck.com/api/v7/archetypes.php")
+        .then((results) => {
+          console.log(results.data.archetype_name);
+        });
+    },
   },
   created() {
     this.fetchCards();
+    this.filter();
   },
 };
 </script>
 
 <template>
   <section class="container">
+    <div>
+      <div v-for="archetype in archetypes">
+        {{ archetype }}
+      </div>
+    </div>
     <div class="number-cards">
       <p>Found {{ number }} cards</p>
     </div>
