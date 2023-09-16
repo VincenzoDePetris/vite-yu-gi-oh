@@ -8,23 +8,30 @@ export default {
       cards: [],
       number: 20,
       archetypes: [],
+      selectedData: "",
+      uriCardsFilter:
+        "https://db.ygoprodeck.com/api/v7/cardinfo.php?&archetype=",
     };
   },
   methods: {
     fetchCards() {
       axios
-        .get("https://db.ygoprodeck.com/api/v7/cardinfo.php?num=20&offset=0")
+        .get("https://db.ygoprodeck.com/api/v7/cardinfo.php?num=120&offset=0")
         .then((res) => {
-          console.log(res.data.data);
           this.cards = res.data.data;
         });
     },
     filter() {
       axios
         .get("https://db.ygoprodeck.com/api/v7/archetypes.php")
-        .then((results) => {
-          console.log(results.data.archetype_name);
+        .then((res) => {
+          console.log(res.data.archetype_name);
+          this.archetypes = res.data;
         });
+    },
+
+    filterCards(selectedData) {
+      this.fetchCards(this.uriCardsFilter + this.selectedData);
     },
   },
   created() {
@@ -36,11 +43,17 @@ export default {
 
 <template>
   <section class="container">
-    <div>
-      <div v-for="archetype in archetypes">
+    <select
+      v-model="selectedData"
+      @change="selectedData"
+      name="archetype"
+      id="archetype"
+    >
+      <option value="" v-for="archetype in archetypes">
         {{ archetype }}
-      </div>
-    </div>
+      </option>
+    </select>
+
     <div class="number-cards">
       <p>Found {{ number }} cards</p>
     </div>
